@@ -1,0 +1,16 @@
+
+plugins {
+    id 'eu.malycha.hazelcast.eventsourcing.java-application-conventions'
+    id 'com.palantir.docker' version '0.34.0'
+    id 'org.springframework.boot' version '2.7.5';
+}
+
+dependencies {
+    implementation project(':domain')
+}
+
+docker {
+    name "koadjunky/hazelcast-eventsourcing-poc-client:latest"
+    dockerfile file('Dockerfile')
+    files tasks.bootJar.outputs
+}

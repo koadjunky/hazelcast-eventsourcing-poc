@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package eu.malycha.hazelcast.eventsourcing.domain;
+
+message OemsRequest {
+
+  string order_id = 1;
+  string request_type = 2;
+
+  string target = 3;
+  string instrument_id = 4;
+  string client_id = 5;
+
+  string base_currency = 6;
+  string quote_currency = 7;
+
+  string portfolio_id = 8;
+
+  string quantity = 9;
+  string price = 10;
+  string stop_price = 11;
+  string expire_time = 12;
+  bool post_only = 13;
+}

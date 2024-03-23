@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package eu.malycha.hazelcast.eventsourcing.domain;
+
+import "eu/malycha/hazelcast/eventsourcing/domain/execution.proto";
+import "eu/malycha/hazelcast/eventsourcing/domain/request.proto";
+
+message OrderStatus {
+  string order_id = 1;
+  string int_id = 2;
+  string ext_id = 3;
+  string venue_account = 14;
+
+  string order_status = 13;
+
+  string quantity = 4;
+  string filled_quantity = 5;
+  string remaining_quantity = 6;
+  string avg_price = 7;
+
+  string error_code = 8;
+  string description = 9;
+  bool closed = 10;
+
+  OemsRequest request = 11;
+  Execution execution = 12;
+}

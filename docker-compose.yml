@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: hazelcast
+      POSTGRES_USER: hazelcast
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+
+  hazelcast1:
+    image: koadjunky/hazelcast-eventsourcing-poc-server:latest
+    depends_on:
+      - postgres
+    ports:
+      - '5701:5701'
+
+  hazelcast2:
+    image: koadjunky/hazelcast-eventsourcing-poc-server:latest
+    depends_on:
+      - hazelcast1
+    ports:
+      - '5702:5701'
+
+  hazelcast3:
+    image: koadjunky/hazelcast-eventsourcing-poc-server:latest
+    depends_on:
+      - hazelcast2
+    ports:
+      - '5703:5701'
+
+  client:
+    image: koadjunky/hazelcast-eventsourcing-poc-client:latest
+    ports:
+      - '8080:8080'
