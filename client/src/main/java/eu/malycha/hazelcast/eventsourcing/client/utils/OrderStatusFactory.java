@@ -10,12 +10,13 @@ import java.util.UUID;
 
 public class OrderStatusFactory {
 
-    public static OrderStatus createOrderStatus(String orderId, String intId, String extId, String state, boolean closed) {
+    public static OrderStatus createOrderStatus(String orderId, String intId, String extId, String state, int serial, boolean closed) {
         return OrderStatus.newBuilder()
             .setOrderId(orderId)
             .setIntId(intId)
             .setExtId(extId)
             .setVenueAccount("Venue")
+            .setSerial(serial)
             .setOrderStatus(state)
             .setQuantity("112")
             .setFilledQuantity("98")

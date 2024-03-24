@@ -12,6 +12,7 @@ message OrderStatus {
   string int_id = 2;
   string ext_id = 3;
   string venue_account = 14;
+  int32 serial = 15;
 
   string order_status = 13;
 

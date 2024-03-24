@@ -1,8 +1,6 @@
 package eu.malycha.hazelcast.eventsourcing.server;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.map.MapLoaderLifecycleSupport;
 import com.hazelcast.map.MapStore;
 import eu.malycha.hazelcast.eventsourcing.domain.OrderStatus;
 import org.slf4j.Logger;
@@ -16,9 +14,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-public class OrderStatusMapStore implements MapStore<String, OrderStatus>, MapLoaderLifecycleSupport {
+public class OrderStatusMapStore implements MapStore<String, OrderStatus> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderStatusMapStore.class);
 
@@ -29,22 +26,13 @@ public class OrderStatusMapStore implements MapStore<String, OrderStatus>, MapLo
     }
 
     @Override
-    public void init(HazelcastInstance hazelcastInstance, Properties properties, String mapName) {
-        // no-op
-    }
-
-    @Override
-    public void destroy() {
-        // no-op
-    }
-
-    @Override
     public void store(String key, OrderStatus value) {
-        jdbc.update("insert into order_status (order_id, int_id, ext_id, venue_account, closed, payload) values (?, ?, ?, ?, ?, ?)",
+        jdbc.update("insert into order_status (order_id, int_id, ext_id, venue_account, serial, closed, payload) values (?, ?, ?, ?, ?, ?, ?)",
             value.getOrderId(),
             value.getIntId(),
             value.getExtId(),
             value.getVenueAccount(),
+            value.getSerial(),
             value.getClosed(),
             value.toByteArray());
     }
@@ -66,7 +54,7 @@ public class OrderStatusMapStore implements MapStore<String, OrderStatus>, MapLo
 
     @Override
     public OrderStatus load(String key) {
-        return jdbc.query("select payload from order_status where order_id=?", new OrderStatusRowMapper(), key).stream()
+        return jdbc.query("select payload from order_status where order_id=? order by serial desc limit 1", new OrderStatusMapStore.OrderStatusRowMapper(), key).stream()
             .findFirst()
             .orElse(null);
     }
