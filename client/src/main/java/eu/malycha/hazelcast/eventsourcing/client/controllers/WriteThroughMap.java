@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class DbBackedMap {
+public class WriteThroughMap {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DbBackedMap.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WriteThroughMap.class);
 
     private final StoreLoadScenario scenario;
 
-    public DbBackedMap(HazelcastInstance hazelcast) {
-        IMap<String, OrderStatus> byOrderId = hazelcast.getMap(MapName.BY_ORDER_ID);
+    public WriteThroughMap(HazelcastInstance hazelcast) {
+        IMap<String, OrderStatus> byOrderId = hazelcast.getMap(MapName.WRITE_THROUGH);
         this.scenario = new StoreLoadScenario(byOrderId);
     }
 
-    @PostMapping("/db/fill")
+    @PostMapping("/through/fill")
     public TimedResult basic_map() throws Exception {
         return scenario.fillMap();
     }
 
-    @PostMapping("/db/verify")
+    @PostMapping("/through/verify")
     public TimedResult verify_map() throws Exception {
         return scenario.verifyMap();
     }

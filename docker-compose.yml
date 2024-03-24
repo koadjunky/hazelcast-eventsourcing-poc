@@ -34,3 +34,11 @@ services:
     image: koadjunky/hazelcast-eventsourcing-poc-client:latest
     ports:
       - '8080:8080'
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@hz.io
+      PGADMIN_DEFAULT_PASSWORD: admin
