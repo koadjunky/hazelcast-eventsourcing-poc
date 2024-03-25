@@ -7,6 +7,8 @@ plugins {
 
 dependencies {
     implementation project(':domain')
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
+    implementation 'org.postgresql:postgresql:42.3.7'
 }
 
 docker {

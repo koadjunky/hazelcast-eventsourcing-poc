@@ -42,6 +42,15 @@ public class HazelcastConfiguration {
         MapConfig writeBehindMapConfig = config.getMapConfig(MapName.WRITE_BEHIND);
         writeBehindMapConfig.setMapStoreConfig(writeBehindStoreConfig);
 
+        MapStoreConfig delegatedStoreConfig = new MapStoreConfig();
+        delegatedStoreConfig.setEnabled(true);
+        delegatedStoreConfig.setWriteDelaySeconds(0);
+        delegatedStoreConfig.setImplementation(new DelegatedMapStore(jdbcTemplate));
+        delegatedStoreConfig.setInitialLoadMode(MapStoreConfig.InitialLoadMode.LAZY);
+
+        MapConfig delegatedMapConfig = config.getMapConfig(MapName.DELEGATE);
+        delegatedMapConfig.setMapStoreConfig(delegatedStoreConfig);
+
         return config;
     }
 
