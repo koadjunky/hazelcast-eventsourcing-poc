@@ -36,6 +36,7 @@ public class HazelcastConfiguration {
         MapStoreConfig writeBehindStoreConfig = new MapStoreConfig();
         writeBehindStoreConfig.setEnabled(true);
         writeBehindStoreConfig.setWriteDelaySeconds(1);
+        writeBehindStoreConfig.setWriteCoalescing(false);
         writeBehindStoreConfig.setImplementation(new OrderStatusMapStore(jdbcTemplate));
         writeBehindStoreConfig.setInitialLoadMode(MapStoreConfig.InitialLoadMode.LAZY);
 

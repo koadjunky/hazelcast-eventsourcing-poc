@@ -38,6 +38,7 @@ public class DelegatedMapStore implements MapStore<String, OrderStatus> {
     @Override
     public void store(String key, OrderStatus value) {
         executor.submit(() ->
+            // TODO: Error handling
             jdbc.update("insert into order_status (order_id, int_id, ext_id, venue_account, serial, closed, payload) values (?, ?, ?, ?, ?, ?, ?)",
                 value.getOrderId(),
                 value.getIntId(),
